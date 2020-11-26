@@ -1,0 +1,23 @@
+.dialogTextList {
+    text-align:center;
+}
+
+.listForm {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: fit-content;
+}
+.listFormControl {
+    display: flex;
+    flex-direction: row;
+    margin-top:20px,
+}
+.addListName {
+    padding-left:5px;
+    margin-left: 10px;
+    width: 100%;
+    height:20px;
+    border-radius:20px;
+    outline:none;
+}
