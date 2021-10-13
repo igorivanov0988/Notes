@@ -21,3 +21,13 @@
     border-radius:20px;
     outline:none;
 }
+.containerText {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    margin-left: 25px;
+}
+.textNotification {
+    text-align:center;
+    color: red;
+}

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,43 +9,39 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
 import './styles.css';
 
+const Modal = function (props) {
+    const [name, setName] = useState('');
+    const [isShowHintText, setIsShowHintText] = useState(false);
 
-class noteModal extends Component {
-    state={
-        name:'',
+        const onChangeNoteName = (term) => {
+            setIsShowHintText(false);
+            setName(term.target.value)
     };
 
-    onChangeNoteName = (term) => {
-        this.setState({name: term.target.value})
-    };
-
-    addNewNote = () => {
-        if(this.state.name !== ''){
-            this.props.addNote({id: uuidv4(), name: this.state.name, list: []});
-            this.setState({name:''});
-            this.props.closeNoteModal()
+        const addNewNote = () => {
+        if(name !== '') {
+            props.addNote({id: uuidv4(), name, list: []});
+            setName('');
+            setIsShowHintText(false);
+            props.closeNoteModal()
         }
         else {
-            alert('Name field must be filled!')
+            setIsShowHintText(true);
         }
     };
 
-    closeModal = () => {
-        this.setState({name:''});
-        this.props.closeNoteModal()
+        const closeModal = () => {
+            setName('');
+            setIsShowHintText(false);
+            props.closeNoteModal()
     };
 
-    render(){
-
-        const {visibleNoteModal, closeNoteModal} = this.props;
-        const {name} = this.state;
-
-        return(
+    return(
             <React.Fragment>
                 <Dialog
                     fullWidth
-                    open={visibleNoteModal}
-                    onClose={closeNoteModal}
+                    open={props.visibleNoteModal}
+                    onClose={props.closeNoteModal}
                 >
                     <DialogTitle className='dialogText'>Add new Note</DialogTitle>
                     <DialogContentText className='dialogText'>
@@ -55,22 +51,26 @@ class noteModal extends Component {
                         <form className='notesForm'>
                             <FormControl className='notesFormControl'>
                                 <input className='addNotesName' type='text'  value={name}
-                                       onChange={this.onChangeNoteName} placeholder={'Name Note'}/>
+                                       onChange={onChangeNoteName} placeholder={'Name Note'}/>
                             </FormControl>
                         </form>
                     </DialogContent>
+                    {isShowHintText? (
+                        <div className='containerText'>
+                            <p className='textNotification'>Name field must be filled!</p>
+                        </div>
+                    ) : null}
                     <DialogActions>
-                        <Button onClick={this.closeModal} color="primary">
+                        <Button onClick={closeModal} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={this.addNewNote} color="primary">
+                        <Button onClick={addNewNote} color="primary">
                             Save new Note
                         </Button>
                     </DialogActions>
                 </Dialog>
             </React.Fragment>
         );
-    }
-}
+};
 
-export default noteModal
+export default Modal;
